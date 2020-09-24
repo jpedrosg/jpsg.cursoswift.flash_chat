@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Firebase
+import SCLAlertView
 
 class LoginViewController: UIViewController {
 
@@ -15,6 +17,15 @@ class LoginViewController: UIViewController {
     
 
     @IBAction func loginPressed(_ sender: UIButton) {
+        guard let email = emailTextfield.text, let password = passwordTextfield.text else { return }
+        Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
+            if let e = error {
+                SCLAlertView().showError("Error", subTitle: e.localizedDescription)
+            } else {
+                self.performSegue(withIdentifier: "LoginToChat", sender: self)
+            }
+          
+        }
     }
     
 }
