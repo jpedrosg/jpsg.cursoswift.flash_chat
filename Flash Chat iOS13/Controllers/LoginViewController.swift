@@ -9,20 +9,24 @@
 import UIKit
 import Firebase
 import SCLAlertView
+import NVActivityIndicatorView
 
 class LoginViewController: UIViewController {
 
     @IBOutlet weak var emailTextfield: UITextField!
     @IBOutlet weak var passwordTextfield: UITextField!
+    @IBOutlet weak var activityIndicatorView: NVActivityIndicatorView!
     
 
     @IBAction func loginPressed(_ sender: UIButton) {
         guard let email = emailTextfield.text, let password = passwordTextfield.text else { return }
+        activityIndicatorView.startAnimating()
         Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
+            self.activityIndicatorView.stopAnimating()
             if let e = error {
                 SCLAlertView().showError("Error", subTitle: e.localizedDescription)
             } else {
-                self.performSegue(withIdentifier: "LoginToChat", sender: self)
+                self.performSegue(withIdentifier: K.loginSegue, sender: self)
             }
           
         }

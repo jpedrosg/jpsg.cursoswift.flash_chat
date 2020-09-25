@@ -9,5 +9,5 @@ target 'Flash Chat iOS13' do
   pod 'CLTypingLabel', '~> 0.4.0'
   pod "Firebase/Auth"
   pod "Firebase/Firestore"
-  pod 'SCLAlertView'
+  pod 'SCLAlertView''
 end

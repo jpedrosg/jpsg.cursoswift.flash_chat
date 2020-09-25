@@ -9,19 +9,23 @@
 import UIKit
 import Firebase
 import SCLAlertView
+import NVActivityIndicatorView
 
 class RegisterViewController: UIViewController {
 
     @IBOutlet weak var emailTextfield: UITextField!
     @IBOutlet weak var passwordTextfield: UITextField!
+    @IBOutlet weak var activityIndicatorView: NVActivityIndicatorView!
     
     @IBAction func registerPressed(_ sender: UIButton) {
         guard let email = emailTextfield.text, let password = passwordTextfield.text else { return }
+        activityIndicatorView.startAnimating()
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+            self.activityIndicatorView.stopAnimating()
             if let e = error {
                 SCLAlertView().showError("Error", subTitle: e.localizedDescription)
             } else {
-                self.performSegue(withIdentifier: "RegisterToChat", sender: self) 
+                self.performSegue(withIdentifier: K.registerSegue, sender: self) 
             }
         }
     }
